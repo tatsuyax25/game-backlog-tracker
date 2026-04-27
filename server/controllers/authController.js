@@ -31,3 +31,21 @@ exports.register = async (req, res) => {
   }
 };
 
+// LOGIN - coming back to an existing account
+exports.login = async (req, res) => {
+  const { email, password } = req.body; // Grab what the user typed in
+  try {
+    // Find the user by their email
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'Invalid credentials' }); // No account found!
+
+    // Compare the typed password with the scrambled one in the database
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(400).json({ message: 'Invalid credentials' }); // Wrong password!
+
+    // Password matches! Send back their ticket
+    res.json({ token: generateToken(user._id), name: user.name });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
