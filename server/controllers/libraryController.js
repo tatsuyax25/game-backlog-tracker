@@ -48,3 +48,15 @@ exports.updateGame = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
+
+// DELETE - remove a game from my library
+exports.deleteGame = async (req, res) => {
+  try {
+    // Find the game and delete it - but only if it belongs to this user
+    const game = await GameEntry.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
+    if (!game) return res.status(404).json({ message: 'Game not found' });
+    res.json({ message: 'Game removed from library' }); // Confirm it's gone
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+}
