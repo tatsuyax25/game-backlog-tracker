@@ -32,3 +32,19 @@ exports.addGame = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// PUT - update an existing game (change status, rating, notes)
+exports.updateGame = async (req, res) => {
+  try {
+    // Find the game by its ID AND make sure it belongs to this user
+    const game = await GameEntry.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id }, // Find it
+      req.body, // Update it with new data
+      { new: true } // Return the updated version
+    );
+    if (!game) return res.status(404).json({ message: 'Game not found' }); // No game found or doesn't belong to user
+    res.json(game); // Send the updated game back
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
