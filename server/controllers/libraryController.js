@@ -7,7 +7,9 @@ const GameEntry = require('../models/GameEntry'); // Our GameEntry blueprint
 exports.getLibrary = async (req, res) => {
   try {
     // Find all games that belong to THIS user, newest first
-    const games = await GameEntry.find({ user: req.user.id }).sort({ createdAt: -1 });
+    const games = await GameEntry.find({ userId: req.user.id }).sort({
+      createdAt: -1,
+    });
     res.json(games); // Send the list back
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
@@ -16,7 +18,17 @@ exports.getLibrary = async (req, res) => {
 
 // POST - add a new game to my library
 exports.addGame = async (req, res) => {
-  const { rawId, title, coverImage, platform, genre, releaseYear, status, rating, notes } = req.body; // Grab what the user typed in
+  const {
+    rawId,
+    title,
+    coverImage,
+    platform,
+    genre,
+    releaseYear,
+    status,
+    rating,
+    notes,
+  } = req.body; // Grab what the user typed in
   try {
     // Make sure this game isn't already in their library (no duplicates allowed!)
     const existing = await GameEntry.findOne({ userId: req.user.id, rawId });

@@ -6,11 +6,11 @@ const mongoose = require('mongoose'); // Mongoose helps us talk to the database
 const gameEntrySchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // WHO own this game card
-    rawId: { type: Number, required: true }, // The game's ID from the RAWG website
+    rawId: { type: Number, required: true }, // The game's ID from the RAW website
     title: { type: String, required: true }, // Game name (e.g. "Elden Ring")
     coverImage: { type: String, default: '' }, // Picture of the game cover
     platform: { type: String, default: '' }, // Where you play it (PS5, PC, etc.)
-    genres: { type: String, default: '' }, // What kind of game (RPG, Action, etc.)
+    genre: { type: String, default: '' }, // What kind of game (RPG, Action, etc.)
     releaseYear: { type: String, default: '' }, // When it came out
     status: {
       type: String,
