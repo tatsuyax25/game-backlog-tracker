@@ -65,8 +65,18 @@ function Login() {
 
           {/* Email field */}
           <div>
-            
+            <label className="text-sm text-gray-400 mb-1 block">Email address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+            />
           </div>
+
+          
         </form>
       </div>
     </div>
