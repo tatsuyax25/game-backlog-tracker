@@ -47,12 +47,13 @@ function Register() {
   return (
     <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center px-4">
       <div className="bg-gray-900 p-8 rounded-xl w-full max-w-md">
-
         {/* Title */}
         <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
           Create an account
         </h2>
-        <p className="text-gray-400 text-center mb-6">Start tracking your games today!</p>
+        <p className="text-gray-400 text-center mb-6">
+          Start tracking your games today!
+        </p>
 
         {/* Error message */}
         {error && (
@@ -60,6 +61,72 @@ function Register() {
             {error}
           </div>
         )}
+
+        {/* Register form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Name field */}
+          <div>
+            <label className="text-sm text-gray-400 mb-1 block">
+              Your name
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              placeholder="Miguel"
+            />
+          </div>
+
+          {/* Email field */}
+          <div>
+            <label className="text-sm text-gray-400 mb-1 block">
+              Email address
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              placeholder="you@example.com"
+            />
+          </div>
+
+          {/* Password field */}
+          <div>
+            <label className="text-sm text-gray-400 mb-1 block">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {/* Submit button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 py-3 rounded-lg font-semibold transition"
+          >
+            {loading ? "Creating account..." : "Create account"}
+          </button>
+        </form>
+
+        {/* Link to login */}
+        <p className="text-center text-gray-400 mt-6">
+          Already have an account?{' '}
+          <Link to="/login" className="text-purple-400 hover:underline">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );
