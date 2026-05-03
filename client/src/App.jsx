@@ -12,12 +12,16 @@ function App() {
   return (
     // BrowserRouter wraps everything - it's what makes page navigation work
     <BrowserRouter>
+      {/* Navbar appears on every page */}
+      <Navbar />
+
+      {/* Routes decide which page to show based on the URL */}
       <Routes>
         {/* Each Route is like a door - the path is the address, the element is what's behind the door */}
-        <Route path="/" element={<h1>Home</h1>} />
-        <Route path="/login" element={<h1>Login</h1>} />
-        <Route path="/register" element={<h1>Register</h1>} />
-        <Route path="/library" element={<h1>Library</h1>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/library" element={<Library />} />
       </Routes>
     </BrowserRouter>
   );
