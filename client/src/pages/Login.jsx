@@ -51,7 +51,9 @@ function Login() {
         <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
           Welcome back
         </h2>
-        <p className="text-gray-400 text-center mb-6">Sign in to your library</p>
+        <p className="text-gray-400 text-center mb-6">
+          Sign in to your library
+        </p>
 
         {/* Error message */}
         {error && (
@@ -62,10 +64,11 @@ function Login() {
 
         {/* Login form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
           {/* Email field */}
           <div>
-            <label className="text-sm text-gray-400 mb-1 block">Email address</label>
+            <label className="text-sm text-gray-400 mb-1 block">
+              Email address
+            </label>
             <input
               type="email"
               name="email"
@@ -76,9 +79,21 @@ function Login() {
             />
           </div>
 
-          
+          {/* Password field */}
+          <div>
+            <label className="text-sm text-gray-400 mb-1 block">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              placeholder="••••••••"
+            />
+          </div>
         </form>
       </div>
     </div>
-  )
+  );
 }
