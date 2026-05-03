@@ -102,7 +102,17 @@ function Login() {
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
+
+        {/* Link to register */}
+        <p className="text-center text-gray-400 mt-6">
+          No account?{' '}
+          <Link to="/register" className="text-purple-400 hover:underline">
+            Create one
+          </Link>
+        </p>
       </div>
     </div>
   );
 }
+
+export default Login;
