@@ -43,6 +43,19 @@ function Register() {
       setLoading(false);
     }
   };
+
+  return (
+    <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center px-4">
+      <div className="bg-gray-900 p-8 rounded-xl w-full max-w-md">
+
+        {/* Title */}
+        <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
+          Create an account
+        </h2>
+        <p className="text-gray-400 text-center mb-6">Start tracking your games today!</p>
+      </div>
+    </div>
+  );
 }
 
 export default Register;
