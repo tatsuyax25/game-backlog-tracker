@@ -13,6 +13,36 @@ function Register() {
   const navigate = useNavigate(); // Lets us redirect to another page
 
   // This runs every time the user types in a field
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // This runs when the user clicks the Register button
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Stop the page from refreshing
+    setLoading(true); // We're now waiting for a response
+    setError(''); // Clear any previous errors
+
+    try {
+      // Send the name, email, and password to our backend
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/register`,
+        formData
+      );
+
+      // Save the token and name in localStorage (like saving the game)
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('name', res.data.name);
+
+      // Redirect to the library page
+      navigate('/library');
+    } catch (err) {
+      // Show an error message if something went wrong
+      setError(err.response?.data?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
 }
 
 export default Register;
