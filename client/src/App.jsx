@@ -2,6 +2,11 @@
 // Think of it like the frame of a house - everything else goes inside it
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // React Router lets us have multiple pages
+import Navbar from './components/Navbar'; // Our navigation bar
+import Home from './pages/Home'; // Home page
+import Login from './pages/Login'; // Login page
+import Register from './pages/Register'; // Register page
+import Library from './pages/Library'; // Library page
 
 function App() {
   return (
