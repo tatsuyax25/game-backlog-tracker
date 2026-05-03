@@ -43,4 +43,32 @@ function Login() {
       setLoading(false);
     }
   };
+
+  return (
+    <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center px-4">
+      <div className="bg-gray-900 p-8 rounded-xl w-full max-w-md">
+        {/* Title */}
+        <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
+          Welcome back
+        </h2>
+        <p className="text-gray-400 text-center mb-6">Sign in to your library</p>
+
+        {/* Error message */}
+        {error && (
+          <div className="bg-red-500 bg-opacity-20 border border-red-500 text-red-400 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        {/* Login form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+          {/* Email field */}
+          <div>
+            
+          </div>
+        </form>
+      </div>
+    </div>
+  )
 }
