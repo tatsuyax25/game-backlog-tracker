@@ -1,14 +1,16 @@
 // This is the LIBRARY PAGE - where users see all their saved games
 // Like the game collection screen where you can see all your games
 
-import { useEffect, useState } from "react"; // useEffect runs code when the page loads
-import { useNavigate } from "react-router-dom"; // useNavigate lets us redirect
-import axios from "axios"; // Axios sends requests to our backend
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import GameSearchModal from "../components/GameSearchModal"; // Our search modal
 
 function Library() {
   const [games, setGames] = useState([]); // Store the list of games
   const [loading, setLoading] = useState(true); // Track if we're loading
   const [error, setError] = useState(""); // Store any error messages
+  const [showModal, setShowModal] = useState(false); // Track if the modal is open
   const navigate = useNavigate();
 
   // Get the JWT token from localStorage (our ticket)
@@ -27,9 +29,9 @@ function Library() {
     const fetchGames = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/library`, {
-          headers: { Authorization: `Bearer ${token}` }, // Send our ticket with the request
+          headers: { Authorization: `Bearer ${token}` }, // Send our ticket
         });
-        setGames(res.data); // Save the games to state
+        setGames(res.data);
       } catch (err) {
         console.error(err);
         setError("Failed to load your library");
@@ -39,7 +41,22 @@ function Library() {
     };
 
     fetchGames();
-  }, []);
+  }, [token, navigate]);
+
+  // This runs when the user adds a game from the search modal
+  const handleAddGame = async (gameData) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/library`,
+        gameData,
+        { headers: { Authorization: `Bearer ${token}` } }, // Send our ticket
+      );
+      // Add the new game to the top of the list without refreshing
+      setGames([res.data, ...games]);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to add game");
+    }
+  };
 
   // Status badge colors
   const statusColors = {
@@ -61,13 +78,24 @@ function Library() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white px-6 py-8">
+      {/* Game Search Modal - only shows when showModal is true */}
+      {showModal && (
+        <GameSearchModal
+          onClose={() => setShowModal(false)} // Close the modal
+          onAddGame={handleAddGame} // Add a game to the library
+        />
+      )}
+
       {/* Page header */}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-purple-400">My Library</h1>
           <p className="text-gray-400 mt-1">Welcome back, {name}!</p>
         </div>
-        <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold transition">
+        <button
+          onClick={() => setShowModal(true)} // Open the modal when clicked
+          className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold transition"
+        >
           + Add Game
         </button>
       </div>
