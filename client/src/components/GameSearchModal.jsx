@@ -40,4 +40,28 @@ function GameSearchModal({ onClose, onAddGame }) {
       setLoading(false);
     }
   };
+
+  // This runs when the user clicks "Add" on a game
+  const handleAdd = (game) => {
+    // Pull out the info we need from the RAWG result
+    const gameData = {
+      rawId: game.id,
+      title: game.name,
+      coverImage: game.background_image || '',
+      platform: game.platform
+        ? game.platforms.map((p) => p.platform.name).join(', ')
+        : '',
+      genre: game.genres
+        ? game.genres.map((g) => g.name).join(', ')
+        : '',
+      releaseYear: game.released
+        ? game.released.split('-')[0]
+        : '',
+    };
+
+    onAddGame(gameData); // Send the game data up to the Library page
+    onClose();           // Close the modal
+  };
+
+  
 }
