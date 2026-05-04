@@ -24,6 +24,20 @@ function GameSearchModal({ onClose, onAddGame }) {
     setLoading(true);
     setError('');
 
-    
-  }
+    try {
+      // Search RAWG API for games matching the query
+      const res = await axios.get('https://api.rawg.io/api/games', {
+        params: {
+          key: import.meta.env.VITE_RAWG_API_KEY, // Our RAWG API key
+          search: value, // What to search for
+          page_size: 6, // Only return 6 results
+        },
+      });
+      setResults(res.data.results); // Save the results
+    } catch (err) {
+      setError('Failed to search games. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 }
