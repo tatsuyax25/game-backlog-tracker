@@ -12,6 +12,7 @@ function Library() {
   const [error, setError] = useState(""); // Store any error messages
   const [showModal, setShowModal] = useState(false); // Track if the modal is open
   const [filter, setFilter] = useState("All"); // Track which status filter is active
+  const [sort, setSort] = useState('newest'); // Track which sort option is active
   const navigate = useNavigate();
 
   // Get the JWT token from localStorage (our ticket)
@@ -126,7 +127,21 @@ function Library() {
           ),
         )}
       </div>
-      
+
+      {/* Sort dropdown */}
+      <div className="flex justify-end mb-6">
+        <select
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+          className="bg-gray-800 border border-gray-700 text-gray-400 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-purple-500"
+        >
+          <option value="newest">Sort: Newest first</option>
+          <option value="oldest">Sort: Oldest first</option>
+          <option value="title">Sort: Title (A-Z)</option>
+          <option value="rating">Sort: Rating (high to low)</option>
+        </select>
+      </div>
+
       {/* Empty state - no games yet */}
       {games.length === 0 ? (
         <div className="text-center py-20">
@@ -137,43 +152,57 @@ function Library() {
       ) : (
         // Game card grid
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {(filter === "All" ? games : games.filter((g) => g.status === filter)).map((game) => (
-            <div
-              key={game._id}
-              className="bg-gray-900 rounded-xl overflow-hidden hover:ring-2 hover:ring-purple-500 transition cursor-pointer"
-            >
-              {/* Game cover image */}
-              {game.coverImage ? (
-                <img
-                  src={game.coverImage}
-                  alt={game.title}
-                  className="w-full h-36 object-cover"
-                />
-              ) : (
-                <div className="w-full h-36 bg-gray-800 flex items-center justify-center">
-                  <span className="text-4xl">🎮</span>
-                </div>
-              )}
-
-              {/* Game info */}
-              <div className="p-3">
-                <p className="font-semibold text-sm truncate">{game.title}</p>
-                <span
-                  className={`text-xs px-2 py-1 rounded-full mt-1 inline-block ${statusColors[game.status]}`}
-                >
-                  {game.status}
-                </span>
-
-                {/* Star rating */}
-                {game.rating > 0 && (
-                  <div className="mt-2 text-yellow-400 text-xs">
-                    {"★".repeat(game.rating)}
-                    {"☆".repeat(5 - game.rating)}
+          {[
+            ...(filter === "All"
+              ? games
+              : games.filter((g) => g.status === filter)),
+          ]
+            .sort((a, b) => {
+              if (sort === "newest")
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              if (sort === "oldest")
+                return new Date(a.createdAt) - new Date(b.createdAt);
+              if (sort === "title") return a.title.localeCompare(b.title);
+              if (sort === "rating") return b.rating - a.rating;
+              return 0;
+            })
+            .map((game) => (
+              <div
+                key={game._id}
+                className="bg-gray-900 rounded-xl overflow-hidden hover:ring-2 hover:ring-purple-500 transition cursor-pointer"
+              >
+                {/* Game cover image */}
+                {game.coverImage ? (
+                  <img
+                    src={game.coverImage}
+                    alt={game.title}
+                    className="w-full h-36 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-36 bg-gray-800 flex items-center justify-center">
+                    <span className="text-4xl">🎮</span>
                   </div>
                 )}
+
+                {/* Game info */}
+                <div className="p-3">
+                  <p className="font-semibold text-sm truncate">{game.title}</p>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full mt-1 inline-block ${statusColors[game.status]}`}
+                  >
+                    {game.status}
+                  </span>
+
+                  {/* Star rating */}
+                  {game.rating > 0 && (
+                    <div className="mt-2 text-yellow-400 text-xs">
+                      {"★".repeat(game.rating)}
+                      {"☆".repeat(5 - game.rating)}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>
