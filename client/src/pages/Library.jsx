@@ -11,6 +11,7 @@ function Library() {
   const [loading, setLoading] = useState(true); // Track if we're loading
   const [error, setError] = useState(""); // Store any error messages
   const [showModal, setShowModal] = useState(false); // Track if the modal is open
+  const [filter, setFilter] = useState("All"); // Track which status filter is active
   const navigate = useNavigate();
 
   // Get the JWT token from localStorage (our ticket)
@@ -107,6 +108,25 @@ function Library() {
         </div>
       )}
 
+      {/* Status filter tabs */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {["All", "Playing", "Completed", "Backlog", "Dropped", "Wishlist"].map(
+          (status) => (
+            <button
+              key={status}
+              onClick={() => setFilter(status)}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                filter === status
+                  ? "bg-purple-600 text-white"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+              }`}
+            >
+              {status}
+            </button>
+          ),
+        )}
+      </div>
+      
       {/* Empty state - no games yet */}
       {games.length === 0 ? (
         <div className="text-center py-20">
@@ -117,7 +137,7 @@ function Library() {
       ) : (
         // Game card grid
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {games.map((game) => (
+          {(filter === "All" ? games : games.filter((g) => g.status === filter)).map((game) => (
             <div
               key={game._id}
               className="bg-gray-900 rounded-xl overflow-hidden hover:ring-2 hover:ring-purple-500 transition cursor-pointer"
