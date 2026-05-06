@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import GameSearchModal from "../components/GameSearchModal"; // Our search modal
+import EditGameModal from '../components/EditGameModal'; // Our edit modal
 
 function Library() {
   const [games, setGames] = useState([]); // Store the list of games
@@ -13,6 +14,7 @@ function Library() {
   const [showModal, setShowModal] = useState(false); // Track if the modal is open
   const [filter, setFilter] = useState("All"); // Track which status filter is active
   const [sort, setSort] = useState('newest'); // Track which sort option is active
+  const [selectedGame, setSelectedGame] = useState(null); // Track which game is selected for editing
   const navigate = useNavigate();
 
   // Get the JWT token from localStorage (our ticket)
@@ -60,6 +62,18 @@ function Library() {
     }
   };
 
+  // This runs when the user saves changes in the Edit modal
+  const handleUpdateGame = (updatedGame) => {
+    // Replace the old game with the updated one in the list
+    setGames(games.map((g) => (g._id === updatedGame._id ? updatedGame : g)));
+  };
+
+  // This runs when the user deletes a game in the Edit modal
+  const handleDeleteGame = (gameId) => {
+    // Remove the deleted game from the list
+    setGames(games.filter((g) => g._id !== gameId));
+  }
+
   // Status badge colors
   const statusColors = {
     Playing: "bg-green-500 bg-opacity-20 text-green-400",
@@ -85,6 +99,16 @@ function Library() {
         <GameSearchModal
           onClose={() => setShowModal(false)} // Close the modal
           onAddGame={handleAddGame} // Add a game to the library
+        />
+      )}
+
+      {/* Edit Game Modal - only shows when a game is selected */}
+      {selectedGame && (
+        <EditGameModal
+          game={selectedGame}
+          onClose={() => setSelectedGame(null)} // Close the modal
+          onUpdate={handleUpdateGame}
+          onDelete={handleDeleteGame}
         />
       )}
 
@@ -169,6 +193,10 @@ function Library() {
             .map((game) => (
               <div
                 key={game._id}
+                role="button"
+                tabIndex={0}
+                onClick={() => setSelectedGame(game)}
+                onKeyDown={(e) => e.key === 'Enter' && setSelectedGame(game)}
                 className="bg-gray-900 rounded-xl overflow-hidden hover:ring-2 hover:ring-purple-500 transition cursor-pointer"
               >
                 {/* Game cover image */}
