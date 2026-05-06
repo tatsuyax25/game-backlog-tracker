@@ -35,5 +35,21 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
     }
   };
 
-  
+  // This runs when the user confirms delete
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/library/${game._id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      onDelete(game._id); // Tell the Library page to remove this game
+      onClose();          // Close the modal
+    } catch (err) {
+      console.log(err);
+      setError('Failed to delete game. Play try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 }
