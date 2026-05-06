@@ -196,7 +196,7 @@ function Library() {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedGame(game)}
-                onKeyDown={(e) => e.key === 'Enter' && setSelectedGame(game)}
+                onKeyDown={(e) => e.key === "Enter" && setSelectedGame(game)}
                 className="bg-gray-900 rounded-xl overflow-hidden hover:ring-2 hover:ring-purple-500 transition cursor-pointer"
               >
                 {/* Game cover image */}
@@ -227,6 +227,13 @@ function Library() {
                       {"★".repeat(game.rating)}
                       {"☆".repeat(5 - game.rating)}
                     </div>
+                  )}
+
+                  {/* Notes preview */}
+                  {game.notes && (
+                    <p className="mt-2 text-xs text-gray-400 truncate">
+                      📝 {game.notes}
+                    </p>
                   )}
                 </div>
               </div>
