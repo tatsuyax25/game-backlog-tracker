@@ -12,4 +12,28 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showConfirm, setShowConfirm] = useState(false); // Track delete confirmation
+
+  const token = localStorage.getItem('token'); // Our JWT ticket
+
+  // This runs when the user clicks "Save changes"
+  const handleUpdate = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await axios.put(
+        `${import.meta.env.VITE_API_URL}/library/${game._id}`,
+        { status, rating, notes },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      onUpdate(res.data); // Send the updated game back to the Library page
+      onClose();          // Close the modal
+    } catch (err) {
+      console.error(err);
+      setError('Failed to update game. Play try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
 }
