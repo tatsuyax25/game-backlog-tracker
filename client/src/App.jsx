@@ -7,6 +7,7 @@ import Home from './pages/Home'; // Home page
 import Login from './pages/Login'; // Login page
 import Register from './pages/Register'; // Register page
 import Library from './pages/Library'; // Library page
+import Stats from './pages/Stats'; // Stats page
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/library" element={<Library />} />
+        <Route path="/stats" element={<Stats />} />
       </Routes>
     </BrowserRouter>
   );

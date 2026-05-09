@@ -31,6 +31,9 @@ function Navbar() {
             <Link to="/library" className="hover:text-purple-400 transition">
               My Library
             </Link>
+            <Link to="/stats" className="hover:text-purple-400 transition">
+              Stats
+            </Link>
             <button
               onClick={handleLogout}
               className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition"
