@@ -17,3 +17,45 @@ const STATUS_COLORS = {
   Dropped: '#ef4444', // red
   Wishlist: '#eab308', // yellow
 };
+
+function Stats() {
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    // Fetch all games from the backend
+    const fetchGames = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/library`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setGames(res.data);
+      } catch (err) {
+        console.log(err);
+        console.error('Failed to load stats');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGames();
+  }, [token, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
+        <p className="text-gray-400 text-xl">Loading stats...</p>
+      </div>
+    );
+  }
+}
+
+export default Stats;
