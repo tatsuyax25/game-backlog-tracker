@@ -198,6 +198,7 @@ function Library() {
           {sortOpen && (
             <div
               role="listbox"
+              aria-label="Sort games"
               className="absolute right-0 z-20 mt-2 w-full overflow-hidden rounded-lg border border-gray-700 bg-gray-800 shadow-xl"
             >
               {sortOptions.map((option) => (
@@ -249,13 +250,11 @@ function Library() {
               return 0;
             })
             .map((game) => (
-              <div
+              <button
                 key={game._id}
-                role="button"
-                tabIndex={0}
+                type="button"
                 onClick={() => setSelectedGame(game)}
-                onKeyDown={(e) => e.key === "Enter" && setSelectedGame(game)}
-                className="cursor-pointer overflow-hidden rounded-xl bg-gray-900 transition hover:ring-2 hover:ring-purple-500"
+                className="overflow-hidden rounded-xl bg-gray-900 text-left transition hover:ring-2 hover:ring-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 {/* Game cover image */}
                 {game.coverImage ? (
@@ -296,7 +295,7 @@ function Library() {
                     </p>
                   )}
                 </div>
-              </div>
+              </button>
             ))}
         </div>
       )}
