@@ -98,9 +98,11 @@ function Stats() {
   const maxGenreCount = genreData.length > 0 ? genreData[0].value : 1;
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white px-6 py-8">
+    <div className="min-h-screen bg-gray-950 text-white px-4 py-6 sm:px-6 sm:py-8">
       {/* Page header */}
-      <h1 className="text-3xl font-bold text-purple-400 mb-8">My Stats</h1>
+      <h1 className="mb-6 text-2xl font-bold text-purple-400 sm:mb-8 sm:text-3xl">
+        My Stats
+      </h1>
 
       {totalGames === 0 ? (
         <div className="text-center py-20">
@@ -113,24 +115,30 @@ function Stats() {
       ) : (
         <>
           {/* Summary cards */}
-          <div className="grid grid-cols-3 gap-4 mb-10">
-            <div className="bg-gray-900 rounded-xl p-5 text-center">
+          <div className="mb-8 grid grid-cols-1 gap-3 sm:mb-10 sm:grid-cols-3 sm:gap-4">
+            <div className="rounded-xl bg-gray-900 p-4 text-center sm:p-5">
               <p className="text-gray-400 text-sm mb-1">Total games</p>
-              <p className="text-4xl font-bold text-white">{totalGames}</p>
+              <p className="text-3xl font-bold text-white sm:text-4xl">
+                {totalGames}
+              </p>
             </div>
-            <div className="bg-gray-900 rounded-xl p-5 text-center">
+            <div className="rounded-xl bg-gray-900 p-4 text-center sm:p-5">
               <p className="text-gray-400 text-sm mb-1">Completed</p>
-              <p className="text-4xl font-bold text-purple-400">{completed}</p>
+              <p className="text-3xl font-bold text-purple-400 sm:text-4xl">
+                {completed}
+              </p>
             </div>
-            <div className="bg-gray-900 rounded-xl p-5 text-center">
+            <div className="rounded-xl bg-gray-900 p-4 text-center sm:p-5">
               <p className="text-gray-400 text-sm mb-1">Avg rating</p>
-              <p className="text-4xl font-bold text-yellow-400">{avgRating}</p>
+              <p className="text-3xl font-bold text-yellow-400 sm:text-4xl">
+                {avgRating}
+              </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-8">
             {/* Status breakdown - custom CSS bars */}
-            <div className="bg-gray-900 rounded-xl p-6">
+            <div className="rounded-xl bg-gray-900 p-4 sm:p-6">
               <h2 className="text-lg font-semibold mb-6">Games by status</h2>
 
               {/* Stacked bar */}
@@ -150,16 +158,18 @@ function Stats() {
                 {statusData.map((item) => (
                   <div
                     key={item.name}
-                    className="flex items-center justify-between"
+                    className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex min-w-0 items-center gap-2">
                       <div
-                        className={`w-3 h-3 rounded-full ${STATUS_COLORS[item.name]}`}
+                        className={`h-3 w-3 shrink-0 rounded-full ${STATUS_COLORS[item.name]}`}
                       />
-                      <span className="text-sm text-gray-300">{item.name}</span>
+                      <span className="truncate text-sm text-gray-300">
+                        {item.name}
+                      </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-32 bg-gray-800 rounded-full h-2">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="h-2 w-16 rounded-full bg-gray-800 min-[375px]:w-24 sm:w-32">
                         <div
                           className={`${STATUS_COLORS[item.name]} h-2 rounded-full`}
                           style={{
@@ -168,7 +178,7 @@ function Stats() {
                         />
                       </div>
                       <span
-                        className={`text-sm font-semibold w-4 text-right ${STATUS_TEXT_COLORS[item.name]}`}
+                        className={`w-5 text-right text-sm font-semibold ${STATUS_TEXT_COLORS[item.name]}`}
                       >
                         {item.value}
                       </span>
@@ -179,7 +189,7 @@ function Stats() {
             </div>
 
             {/* Top genres - custom CSS bars */}
-            <div className="bg-gray-900 rounded-xl p-6">
+            <div className="rounded-xl bg-gray-900 p-4 sm:p-6">
               <h2 className="text-lg font-semibold mb-6">Top genres</h2>
               {genreData.length === 0 ? (
                 <p className="text-gray-400 text-sm">No genre data yet.</p>
@@ -187,9 +197,11 @@ function Stats() {
                 <div className="flex flex-col gap-4">
                   {genreData.map((item) => (
                     <div key={item.name}>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-300">{item.name}</span>
-                        <span className="text-purple-400 font-semibold">
+                      <div className="mb-1 grid grid-cols-[minmax(0,1fr)_auto] gap-3 text-sm">
+                        <span className="truncate text-gray-300">
+                          {item.name}
+                        </span>
+                        <span className="font-semibold text-purple-400">
                           {item.value}
                         </span>
                       </div>

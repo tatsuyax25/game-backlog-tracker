@@ -17,14 +17,14 @@ function Navbar() {
   const isLoggedIn = localStorage.getItem('token');
 
   return (
-    <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between">
+    <nav className="flex flex-col gap-3 bg-gray-900 px-4 py-4 text-white sm:flex-row sm:items-center sm:justify-between sm:px-6">
       {/* Logo - clicking it goes to the home page */}
-      <Link to="/" className="text-xl font-bold text-purple-400">
+      <Link to="/" className="shrink-0 text-xl font-bold text-purple-400">
         🎮 GameLog
       </Link>
 
       {/* Navigation links */}
-      <div className="flex items-center gap-4">
+      <div className="flex w-full flex-wrap items-center gap-3 text-sm sm:w-auto sm:gap-4 sm:text-base">
         {isLoggedIn ? (
           // If logged in, show Library link and Logout button
           <>
@@ -36,7 +36,7 @@ function Navbar() {
             </Link>
             <button
               onClick={handleLogout}
-              className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition"
+              className="ml-auto rounded-lg bg-purple-600 px-3 py-2 transition hover:bg-purple-700 sm:ml-0 sm:px-4"
             >
               Logout
             </button>
@@ -49,7 +49,7 @@ function Navbar() {
             </Link>
             <Link
               to="/register"
-              className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition"
+              className="ml-auto rounded-lg bg-purple-600 px-3 py-2 transition hover:bg-purple-700 sm:ml-0 sm:px-4"
             >
               Register
             </Link>

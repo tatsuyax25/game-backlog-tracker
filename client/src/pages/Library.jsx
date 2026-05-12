@@ -1,7 +1,7 @@
 // This is the LIBRARY PAGE - where users see all their saved games
 // Like the game collection screen where you can see all your games
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import GameSearchModal from "../components/GameSearchModal"; // Our search modal
@@ -14,12 +14,25 @@ function Library() {
   const [showModal, setShowModal] = useState(false); // Track if the modal is open
   const [filter, setFilter] = useState("All"); // Track which status filter is active
   const [sort, setSort] = useState('newest'); // Track which sort option is active
+  const [sortOpen, setSortOpen] = useState(false); // Track whether the sort menu is open
   const [selectedGame, setSelectedGame] = useState(null); // Track which game is selected for editing
+  const sortMenuRef = useRef(null);
   const navigate = useNavigate();
 
   // Get the JWT token from localStorage (our ticket)
   const token = localStorage.getItem("token");
   const name = localStorage.getItem("name");
+
+  const sortOptions = [
+    { value: "newest", label: "Sort: Newest first" },
+    { value: "oldest", label: "Sort: Oldest first" },
+    { value: "title", label: "Sort: Title (A-Z)" },
+    { value: "rating", label: "Sort: Rating (high to low)" },
+  ];
+
+  const selectedSortLabel =
+    sortOptions.find((option) => option.value === sort)?.label ||
+    sortOptions[0].label;
 
   // This runs when the page first loads
   useEffect(() => {
@@ -46,6 +59,20 @@ function Library() {
 
     fetchGames();
   }, [token, navigate]);
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (
+        sortMenuRef.current &&
+        !sortMenuRef.current.contains(event.target)
+      ) {
+        setSortOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, []);
 
   // This runs when the user adds a game from the search modal
   const handleAddGame = async (gameData) => {
@@ -93,7 +120,7 @@ function Library() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white px-6 py-8">
+    <div className="min-h-screen bg-gray-950 px-4 py-6 text-white sm:px-6 sm:py-8">
       {/* Game Search Modal - only shows when showModal is true */}
       {showModal && (
         <GameSearchModal
@@ -113,14 +140,16 @@ function Library() {
       )}
 
       {/* Page header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-purple-400">My Library</h1>
+      <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-purple-400 sm:text-3xl">
+            My Library
+          </h1>
           <p className="text-gray-400 mt-1">Welcome back, {name}!</p>
         </div>
         <button
           onClick={() => setShowModal(true)} // Open the modal when clicked
-          className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold transition"
+          className="rounded-lg bg-purple-600 px-4 py-2 font-semibold transition hover:bg-purple-700"
         >
           + Add Game
         </button>
@@ -134,13 +163,13 @@ function Library() {
       )}
 
       {/* Status filter tabs */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="mb-6 flex flex-wrap gap-2">
         {["All", "Playing", "Completed", "Backlog", "Dropped", "Wishlist"].map(
           (status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+              className={`rounded-full px-3 py-2 text-sm font-semibold transition sm:px-4 ${
                 filter === status
                   ? "bg-purple-600 text-white"
                   : "bg-gray-800 text-gray-400 hover:bg-gray-700"
@@ -153,17 +182,46 @@ function Library() {
       </div>
 
       {/* Sort dropdown */}
-      <div className="flex justify-end mb-6">
-        <select
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-          className="bg-gray-800 border border-gray-700 text-gray-400 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-purple-500"
-        >
-          <option value="newest">Sort: Newest first</option>
-          <option value="oldest">Sort: Oldest first</option>
-          <option value="title">Sort: Title (A-Z)</option>
-          <option value="rating">Sort: Rating (high to low)</option>
-        </select>
+      <div className="mb-6 flex justify-stretch sm:justify-end">
+        <div ref={sortMenuRef} className="relative w-full sm:w-64">
+          <button
+            type="button"
+            onClick={() => setSortOpen((open) => !open)}
+            className="flex w-full items-center justify-between rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-left text-sm text-gray-300 transition hover:bg-gray-700 focus:border-purple-500 focus:outline-none"
+            aria-haspopup="listbox"
+            aria-expanded={sortOpen}
+          >
+            <span className="truncate">{selectedSortLabel}</span>
+            <span className="ml-3 text-gray-500">⌄</span>
+          </button>
+
+          {sortOpen && (
+            <div
+              role="listbox"
+              className="absolute right-0 z-20 mt-2 w-full overflow-hidden rounded-lg border border-gray-700 bg-gray-800 shadow-xl"
+            >
+              {sortOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  aria-selected={sort === option.value}
+                  onClick={() => {
+                    setSort(option.value);
+                    setSortOpen(false);
+                  }}
+                  className={`block w-full px-3 py-2 text-left text-sm transition ${
+                    sort === option.value
+                      ? "bg-purple-600 text-white"
+                      : "text-gray-300 hover:bg-gray-700"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Empty state - no games yet */}
@@ -175,7 +233,7 @@ function Library() {
         </div>
       ) : (
         // Game card grid
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {[
             ...(filter === "All"
               ? games
@@ -197,24 +255,26 @@ function Library() {
                 tabIndex={0}
                 onClick={() => setSelectedGame(game)}
                 onKeyDown={(e) => e.key === "Enter" && setSelectedGame(game)}
-                className="bg-gray-900 rounded-xl overflow-hidden hover:ring-2 hover:ring-purple-500 transition cursor-pointer"
+                className="cursor-pointer overflow-hidden rounded-xl bg-gray-900 transition hover:ring-2 hover:ring-purple-500"
               >
                 {/* Game cover image */}
                 {game.coverImage ? (
                   <img
                     src={game.coverImage}
                     alt={game.title}
-                    className="w-full h-36 object-cover"
+                    className="aspect-[4/3] w-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-36 bg-gray-800 flex items-center justify-center">
+                  <div className="flex aspect-[4/3] w-full items-center justify-center bg-gray-800">
                     <span className="text-4xl">🎮</span>
                   </div>
                 )}
 
                 {/* Game info */}
                 <div className="p-3">
-                  <p className="font-semibold text-sm truncate">{game.title}</p>
+                  <p className="truncate text-sm font-semibold">
+                    {game.title}
+                  </p>
                   <span
                     className={`text-xs px-2 py-1 rounded-full mt-1 inline-block ${statusColors[game.status]}`}
                   >

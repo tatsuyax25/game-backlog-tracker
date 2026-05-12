@@ -65,15 +65,16 @@ function GameSearchModal({ onClose, onAddGame }) {
 
   return (
     // Dark overlay behind the modal
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 px-4">
-      <div className="bg-gray-900 rounded-xl w-full max-w-lg p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-70 px-4 py-6">
+      <div className="max-h-full w-full max-w-lg overflow-y-auto rounded-xl bg-gray-900 p-4 sm:p-6">
 
         {/* Modal header */}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-purple-400">Add a Game</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white text-2xl transition"
+            className="text-2xl text-gray-400 transition hover:text-white"
+            aria-label="Close add game modal"
           >
             ×
           </button>
@@ -85,7 +86,7 @@ function GameSearchModal({ onClose, onAddGame }) {
           value={query}
           onChange={handleSearch}
           placeholder="Search for a game..."
-          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 mb-4"
+          className="mb-4 w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
           autoFocus
         />
 
@@ -100,21 +101,21 @@ function GameSearchModal({ onClose, onAddGame }) {
         )}
 
         {/* Search results */}
-        <div className="flex flex-col gap-3 max-h-80 overflow-y-auto">
+        <div className="flex max-h-80 flex-col gap-3 overflow-y-auto">
           {results.map((game) => (
             <div
               key={game.id}
-              className="flex items-center gap-3 bg-gray-800 rounded-lg p-3"
+              className="flex items-center gap-3 rounded-lg bg-gray-800 p-3"
             >
               {/* Game cover thumbnail */}
               {game.background_image ? (
                 <img
                   src={game.background_image}
                   alt={game.name}
-                  className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+                  className="h-12 w-12 flex-shrink-0 rounded-lg object-cover"
                 />
               ) : (
-                <div className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gray-700">
                   <span>🎮</span>
                 </div>
               )}
@@ -130,7 +131,7 @@ function GameSearchModal({ onClose, onAddGame }) {
               {/* Add button */}
               <button
                 onClick={() => handleAdd(game)}
-                className="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded-lg text-sm font-semibold transition flex-shrink-0"
+                className="flex-shrink-0 rounded-lg bg-purple-600 px-3 py-1 text-sm font-semibold transition hover:bg-purple-700"
               >
                 Add
               </button>

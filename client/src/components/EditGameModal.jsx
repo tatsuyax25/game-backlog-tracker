@@ -58,8 +58,8 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
 
   return (
     // Dark overlay behind the modal
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 px-4">
-      <div className="bg-gray-900 rounded-xl w-full max-w-md p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-70 px-4 py-6">
+      <div className="max-h-full w-full max-w-md overflow-y-auto rounded-xl bg-gray-900 p-4 sm:p-6">
         {/* Game info header */}
         <div className="flex gap-4 mb-5">
           {game.coverImage ? (
@@ -73,8 +73,10 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
               <span className="text-2xl">🎮</span>
             </div>
           )}
-          <div>
-            <h2 className="text-lg font-bold text-white">{game.title}</h2>
+          <div className="min-w-0">
+            <h2 className="truncate text-lg font-bold text-white">
+              {game.title}
+            </h2>
             <p className="text-sm text-gray-400">
               {game.genre} · {game.platform}
             </p>
@@ -120,7 +122,7 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
               <button
                 key={star}
                 onClick={() => setRating(star === rating ? 0 : star)} // Click same star to deselect
-                className={`text-2xl transition ${
+                className={`min-h-10 min-w-10 text-2xl transition ${
                   star <= rating ? "text-yellow-400" : "text-gray-600"
                 }`}
               >
@@ -138,7 +140,7 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
             onChange={(e) => setNotes(e.target.value)}
             rows={3}
             placeholder="Add your thoughts about this game..."
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+            className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
           />
         </div>
 
@@ -149,35 +151,35 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
             <p className="text-red-400 text-sm mb-3">
               Are you sure you want to remove this game?
             </p>
-            <div className="flex gap-2">
+            <div className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2">
               <button
                 onClick={handleDelete}
                 disabled={loading}
-                className="flex-1 bg-red-600 hover:bg-red-700 disabled:opacity-50 py-2 rounded-lg text-sm font-semibold transition"
+                className="rounded-lg bg-red-600 py-2 text-sm font-semibold transition hover:bg-red-700 disabled:opacity-50"
               >
                 Yes, remove it
               </button>
               <button
                 onClick={() => setShowConfirm(false)}
-                className="flex-1 bg-gray-700 hover:bg-gray-600 py-2 rounded-lg text-sm font-semibold transition"
+                className="rounded-lg bg-gray-700 py-2 text-sm font-semibold transition hover:bg-gray-600"
               >
                 Cancel
               </button>
             </div>
           </div>
         ) : (
-          <div className="flex gap-3">
+          <div className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-3">
             {/* Remove button */}
             <button
               onClick={() => setShowConfirm(true)}
-              className="flex-1 border border-red-500 text-red-400 hover:bg-red-500 hover:bg-opacity-10 py-2 rounded-lg text-sm font-semibold transition"
+              className="rounded-lg border border-red-500 py-2 text-sm font-semibold text-red-400 transition hover:bg-red-500 hover:bg-opacity-10"
             >
               Remove
             </button>
             {/* Cancel button */}
             <button
               onClick={onClose}
-              className="flex-1 bg-gray-700 hover:bg-gray-600 py-2 rounded-lg text-sm font-semibold transition"
+              className="rounded-lg bg-gray-700 py-2 text-sm font-semibold transition hover:bg-gray-600"
             >
               Cancel
             </button>
@@ -185,7 +187,7 @@ function EditGameModal({ game, onClose, onUpdate, onDelete }) {
             <button
               onClick={handleUpdate}
               disabled={loading}
-              className="flex-1 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 py-2 rounded-lg text-sm font-semibold transition"
+              className="rounded-lg bg-purple-600 py-2 text-sm font-semibold transition hover:bg-purple-700 disabled:opacity-50"
             >
               {loading ? "Saving..." : "Save changes"}
             </button>
