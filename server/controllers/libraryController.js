@@ -52,7 +52,7 @@ exports.updateGame = async (req, res) => {
     const game = await GameEntry.findOneAndUpdate(
       { _id: req.params.id, userId: req.user.id }, // Find it
       req.body, // Update it with new data
-      { new: true } // Return the updated version
+      { returnDocument: 'after' } // Return the updated version
     );
     if (!game) return res.status(404).json({ message: 'Game not found' }); // No game found or doesn't belong to user
     res.json(game); // Send the updated game back
