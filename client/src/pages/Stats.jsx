@@ -115,24 +115,18 @@ function Stats() {
       ) : (
         <>
           {/* Summary cards */}
-          <div className="mb-8 grid grid-cols-1 gap-3 sm:mb-10 sm:grid-cols-3 sm:gap-4">
-            <div className="rounded-xl bg-gray-900 p-4 text-center sm:p-5">
-              <p className="text-gray-400 text-sm mb-1">Total games</p>
-              <p className="text-3xl font-bold text-white sm:text-4xl">
-                {totalGames}
-              </p>
+          <div className="grid grid-cols-3 gap-4 mb-10">
+            <div className="bg-gray-900 rounded-xl p-4 text-center">
+              <p className="text-gray-400 text-xs mb-1">Total</p>
+              <p className="text-3xl font-bold text-white">{totalGames}</p>
             </div>
-            <div className="rounded-xl bg-gray-900 p-4 text-center sm:p-5">
-              <p className="text-gray-400 text-sm mb-1">Completed</p>
-              <p className="text-3xl font-bold text-purple-400 sm:text-4xl">
-                {completed}
-              </p>
+            <div className="bg-gray-900 rounded-xl p-4 text-center">
+              <p className="text-gray-400 text-xs mb-1">Completed</p>
+              <p className="text-3xl font-bold text-purple-400">{completed}</p>
             </div>
-            <div className="rounded-xl bg-gray-900 p-4 text-center sm:p-5">
-              <p className="text-gray-400 text-sm mb-1">Avg rating</p>
-              <p className="text-3xl font-bold text-yellow-400 sm:text-4xl">
-                {avgRating}
-              </p>
+            <div className="bg-gray-900 rounded-xl p-4 text-center">
+              <p className="text-gray-400 text-xs mb-1">Avg rating</p>
+              <p className="text-3xl font-bold text-yellow-400">{avgRating}</p>
             </div>
           </div>
 
