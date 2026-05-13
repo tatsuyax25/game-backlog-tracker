@@ -28,8 +28,11 @@ function Navbar() {
         {isLoggedIn ? (
           // If logged in, show Library link and Logout button
           <>
-            <Link to="/library" className="hover:text-purple-400 transition">
-              My Library
+            <Link
+              to="/library"
+              className="hover:text-purple-400 transition text-sm"
+            >
+              Library
             </Link>
             <Link to="/stats" className="hover:text-purple-400 transition">
               Stats
