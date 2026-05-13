@@ -140,16 +140,14 @@ function Library() {
       )}
 
       {/* Page header */}
-      <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
-        <div className="min-w-0">
-          <h1 className="text-2xl font-bold text-purple-400 sm:text-3xl">
-            My Library
-          </h1>
-          <p className="text-gray-400 mt-1">Welcome back, {name}!</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-purple-400">My Library</h1>
+          <p className="text-gray-400 mt-1 text-sm">Welcome back, {name}!</p>
         </div>
         <button
-          onClick={() => setShowModal(true)} // Open the modal when clicked
-          className="rounded-lg bg-purple-600 px-4 py-2 font-semibold transition hover:bg-purple-700"
+          onClick={() => setShowModal(true)}
+          className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold transition self-start sm:self-auto"
         >
           + Add Game
         </button>
@@ -271,9 +269,7 @@ function Library() {
 
                 {/* Game info */}
                 <div className="p-3">
-                  <p className="truncate text-sm font-semibold">
-                    {game.title}
-                  </p>
+                  <p className="truncate text-sm font-semibold">{game.title}</p>
                   <span
                     className={`text-xs px-2 py-1 rounded-full mt-1 inline-block ${statusColors[game.status]}`}
                   >
