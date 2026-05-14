@@ -180,3 +180,5 @@ game-backlog-tracker/
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/db39cf54-8bc7-4e77-a408-c99fe5030b5c/deploy-status)](https://app.netlify.com/projects/gamebacklogtracker/deploys)
