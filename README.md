@@ -3,6 +3,7 @@
 A full-stack MERN application that lets you track every game you've played, are playing, or want to play — all in one place.
 
 🔗 **Live Demo:** [gamebacklogtracker.netlify.app](https://gamebacklogtracker.netlify.app)
+🎨 **Figma Wireframes:** [View Wireframes](https://www.figma.com/design/cbbofpEGbNooD0aQLvLl5T/GameLog---Wireframes?node-id=1-3&t=I4yjVJVEOeq0cZeH-1)
 
 ---
 
@@ -166,6 +167,18 @@ game-backlog-tracker/
 | POST | `/api/library` | Add a new game |
 | PUT | `/api/library/:id` | Update a game entry |
 | DELETE | `/api/library/:id` | Remove a game |
+
+---
+
+## 🔮 Future Updates
+
+- 🔑 **Forgot Password** — Allow users to reset their password via a secure email link
+- 👤 **Account Settings** — Allow users to update their email address and password from their profile
+- 🏠 **Smart Home Page** — Redirect logged-in users directly to their library instead of the landing page
+- 🌐 **Public Profile** — Shareable profile page showing a user's game collection
+- 🔔 **Notifications** — Reminders to update game statuses or rate completed games
+- 🎯 **Advanced Filtering** — Filter by genre, platform, release year, and rating range
+- 🖼️ **Custom Cover Upload** — Allow users to upload their own cover images for games not in RAWG
 
 ---
 
