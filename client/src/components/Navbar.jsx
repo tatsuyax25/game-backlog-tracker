@@ -37,6 +37,9 @@ function Navbar() {
             <Link to="/stats" className="hover:text-purple-400 transition">
               Stats
             </Link>
+            <Link to="/settings" className="hover:text-purple-400 transition">
+              Settings
+            </Link>
             <button
               onClick={handleLogout}
               className="ml-auto rounded-lg bg-purple-600 px-3 py-2 transition hover:bg-purple-700 sm:ml-0 sm:px-4"

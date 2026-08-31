@@ -6,9 +6,10 @@ const mongoose = require('mongoose'); // Mongoose helps us talk to the database
 // Here we describe what a User looks like
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, trim: true }, // The user's name (required!)
-    email: { type: String, required: true, unique: true, lowercase: true }, // Email (must be unique - no duplicates!)
-    password: { type: String, required: true }, // Password (we'll scramble this so nobody can read it)
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true },
+    bio: { type: String, default: '', maxlength: 300 },
   },
   { timestamps: true } // Automatically saves when the account was created and last updated
 );

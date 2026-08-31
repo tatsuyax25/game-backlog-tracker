@@ -31,6 +31,51 @@ exports.register = async (req, res) => {
   }
 };
 
+// GET PROFILE - fetch current user's profile
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+// UPDATE PROFILE - change name, bio, email, or password
+exports.updateProfile = async (req, res) => {
+  const { name, bio, email, currentPassword, newPassword } = req.body;
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Changing email or password requires current password verification
+    if (email || newPassword) {
+      if (!currentPassword) return res.status(400).json({ message: 'Current password is required' });
+      const match = await bcrypt.compare(currentPassword, user.password);
+      if (!match) return res.status(400).json({ message: 'Current password is incorrect' });
+    }
+
+    if (name) user.name = name.trim();
+    if (bio !== undefined) user.bio = bio;
+    if (email) {
+      const existing = await User.findOne({ email: email.toLowerCase() });
+      if (existing && existing._id.toString() !== user._id.toString())
+        return res.status(400).json({ message: 'Email already in use' });
+      user.email = email.toLowerCase();
+    }
+    if (newPassword) {
+      if (newPassword.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' });
+      user.password = await bcrypt.hash(newPassword, 10);
+    }
+
+    await user.save();
+    res.json({ message: 'Profile updated', name: user.name, email: user.email, bio: user.bio });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
 // LOGIN - coming back to an existing account
 exports.login = async (req, res) => {
   const { email, password } = req.body; // Grab what the user typed in

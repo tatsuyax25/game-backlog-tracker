@@ -12,7 +12,11 @@ const libraryRoutes = require('./routes/libraryRoutes'); // Handles game library
 
 const app = express(); // Create our app - like plugging in the console
 
-app.use(cors()); // Allow the React app to talk to us
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json()); // Allow the app to read JSON data (like reading a letter)
 
 // Tell the app which routes handle which URLs

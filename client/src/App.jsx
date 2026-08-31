@@ -9,21 +9,19 @@ import Register from './pages/Register'; // Register page
 import Library from './pages/Library'; // Library page
 import Stats from './pages/Stats'; // Stats page
 
+import Settings from './pages/Settings';
+
 function App() {
   return (
-    // BrowserRouter wraps everything - it's what makes page navigation work
     <BrowserRouter>
-      {/* Navbar appears on every page */}
       <Navbar />
-
-      {/* Routes decide which page to show based on the URL */}
       <Routes>
-        {/* Each Route is like a door - the path is the address, the element is what's behind the door */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/library" element={<Library />} />
         <Route path="/stats" element={<Stats />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   );
